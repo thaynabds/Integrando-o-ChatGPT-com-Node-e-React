@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg-primary:    #0d0d0d;
+  --bg-secondary:  #171717;
+  --bg-tertiary:   #1e1e1e;
+  --bg-hover:      #2a2a2a;
+  --border:        #2f2f2f;
+  --border-focus:  #10a37f;
+  --green:         #10a37f;
+  --green-hover:   #0d8f6f;
+  --green-glow:    #10a37f22;
+  --text-primary:  #ececec;
+  --text-muted:    #8e8ea0;
+  --text-dim:      #565869;
+  --user-bubble:   #2a2a2a;
+  --bot-bubble:    #171717;
+  --font:          'Sora', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+  --radius:        12px;
+  --sidebar-w:     260px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-weight: 300;
+  line-height: 1.6;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#root { height: 100vh; display: flex; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Code blocks ── */
+pre {
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  margin: 10px 0;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #79c0ff;
+}
+
+pre code { background: none; padding: 0; color: #abb2bf; }
+
+/* ── Markdown ── */
+.message-content p { margin-bottom: 8px; }
+.message-content p:last-child { margin-bottom: 0; }
+.message-content ul, .message-content ol { padding-left: 20px; margin: 8px 0; }
+.message-content li { margin-bottom: 4px; }
+.message-content strong { font-weight: 600; color: var(--text-primary); }
+.message-content a { color: var(--green); text-decoration: none; }
+.message-content a:hover { text-decoration: underline; }
+.message-content blockquote {
+  border-left: 3px solid var(--green);
+  padding-left: 12px;
+  color: var(--text-muted);
+  margin: 8px 0;
+}
+.message-content h1, .message-content h2, .message-content h3 {
+  font-weight: 600;
+  margin: 14px 0 6px;
+  color: var(--text-primary);
+}
+.message-content table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+.message-content th, .message-content td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-size: 0.875rem;
+}
+.message-content th { background: var(--bg-tertiary); font-weight: 500; }
+
+/* ── Animations ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.fade-up { animation: fade-up 0.3s ease both; }
