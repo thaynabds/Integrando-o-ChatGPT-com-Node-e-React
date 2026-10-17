@@ -6,13 +6,13 @@ import { getChatResponse, getChatStream } from "../services/chat.service.js";
  */
 export async function chat(req, res) {
   try {
-    const { messages, model } = req.body;
+    const { messages } = req.body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: "Campo 'messages' é obrigatório e deve ser um array." });
     }
 
-    const reply = await getChatResponse(messages, model);
+    const reply = await getChatResponse(messages);
     return res.json({ reply });
   } catch (err) {
     console.error("Erro no chat:", err.message);
@@ -26,7 +26,7 @@ export async function chat(req, res) {
  */
 export async function chatStream(req, res) {
   try {
-    const { messages, model } = req.body;
+    const { messages } = req.body;
 
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: "Campo 'messages' é obrigatório." });
@@ -36,10 +36,7 @@ export async function chatStream(req, res) {
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
-    const stream = await getChatStream(messages, model);
-
-    for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content || "";
+    for await (const content of getChatStream(messages)) {
       if (content) {
         res.write(`data: ${JSON.stringify({ content })}\n\n`);
       }
