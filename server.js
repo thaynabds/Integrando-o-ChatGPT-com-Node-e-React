@@ -1,38 +1,33 @@
-/**
- * 🤖 ChatGPT Clone — Back-end (Node.js + Express)
- * Desafio de Projeto DIO · Bootcamp Bradesco GenAI & Dados
- * Autora: Thayná Batista da Silva — Senac Recife-PE
- */
-
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { router } from "./routes/chat.routes.js";
+import { chaveConfigurada } from "./config/openai.js";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
-// ── Middlewares ────────────────────────────────────────────
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));
+app.use(cors({ origin: process.env.FRONTEND_URL || true }));
 app.use(express.json());
-
-// ── Routes ─────────────────────────────────────────────────
 app.use("/api", router);
 
-// ── Health check ───────────────────────────────────────────
-app.get("/", (_, res) =>
-  res.json({
-    status: "✅ Online",
-    project: "ChatGPT Clone — Thayná Batista da Silva",
-    version: "1.0.0",
-  })
-);
-
-// ── Start ──────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🚀 Servidor rodando em http://localhost:${PORT}`);
-  console.log(`   Projeto: ChatGPT Clone — DIO Bootcamp Bradesco`);
-  console.log(`   Autora : Thayná Batista da Silva\n`);
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    status: "online",
+    project: "ChatGPT Clone, Thayna Batista da Silva",
+    versao: "1.0.0",
+    openai: chaveConfigurada()
+      ? "configurada"
+      : "OPENAI_API_KEY nao configurada. A pagina esta no ar, mas o chat nao responde ate a chave existir no ambiente.",
+  });
 });
+
+export default app;
+
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`Servidor em http://localhost:${port}`);
+  });
+}
